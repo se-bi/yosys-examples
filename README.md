@@ -1,4 +1,4 @@
-# Examples for Yosys equivalence verification
+# Examples for Yosys Synthesis and Equivalence Verification
 
 - Yosys is an OpenSource Tool mainly for Synthesis, but also provides equivalence checks
 
