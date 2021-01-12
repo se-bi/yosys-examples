@@ -2,7 +2,7 @@ read_verilog -ignore_redef -nooverwrite  old.v
 hierarchy -check -top top
 rename top netlist_v1
 hierarchy -check -top netlist_v1
-prep
+prep -flatten
 splitnets -ports
 design -save netlist_v1
 
@@ -10,7 +10,7 @@ read_verilog -ignore_redef -overwrite  new.v
 hierarchy -check -top top
 rename top netlist_v2
 hierarchy -check -top netlist_v2
-prep
+prep -flatten
 splitnets -ports
 design -save netlist_v2
 
