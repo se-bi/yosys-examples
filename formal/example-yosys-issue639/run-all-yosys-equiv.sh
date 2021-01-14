@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for i in example-from-issue639-*/
+for i in */
 do
   pushd $i
   yosys equiv_check.ys | tee equiv.log

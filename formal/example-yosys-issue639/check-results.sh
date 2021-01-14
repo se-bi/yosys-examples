@@ -1,6 +1,6 @@
 #!/bin/bash
 return_value=0
-for i in example-from-issue639-*/;
+for i in */;
 do
   pushd $i
   echo ""

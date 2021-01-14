@@ -14,17 +14,18 @@ register_tests:
     expire_in: 6 week
 
 
-issue_tests:
+issue_ys_639_tests:
   stage: tests
   image: hdlc/ghdl:yosys
   before_script:
     - yosys --version
   script:
     - cd formal
-    - ./example-from-issue639-run-all-yosys-equiv.sh >> docker_equiv_dump.log
-    - ./example-from-issue639-check-results.sh | tee docker_equiv_check.log
+    - pushd example-yosys-issue639/
+    - ./run-all-yosys-equiv.sh >> yosys_equiv.log
+    - ./check-results.sh | tee equiv_check.log
+    - popd
   artifacts:
     paths:
-    - formal/docker_equiv_dump.log
-    - formal/docker_equiv_check.log
+    - formal/example-yosys-issue639/*.log
     expire_in: 6 week

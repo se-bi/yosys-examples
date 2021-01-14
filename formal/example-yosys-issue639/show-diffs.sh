@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for i in example-from-issue639-*/;
+for i in */;
 do
   echo -e "\n$i\n"
   pushd $i
