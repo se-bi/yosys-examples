@@ -4,7 +4,9 @@ formal:
   before_script:
     - yosys --version
   script:
-    - cd formal
+    - cd formal/register_tests
+    - ./run_tests.sh
+    - cd ..
     - ./example-from-issue639-run-all-yosys-equiv.sh >> docker_equiv_dump.log
     - ./example-from-issue639-check-results.sh | tee docker_equiv_check.log
   artifacts:
