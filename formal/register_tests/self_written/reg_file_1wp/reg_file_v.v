@@ -5,23 +5,28 @@ module reg_file_v
 
   ( input              reset,
     input              clock,
-    input              r_c_wen_in,
-    input       [ 2:0] r_a_raddr_in,
-    input       [ 2:0] r_c_waddr_in,
-    input       [15:0] c_in,
-    output  reg [15:0] a_out
+    input              r_d_wen_in,
+    input       [ 2:0] r_d_waddr_in,
+    input       [15:0] d_in,
+    output  reg [(16*2)-1:0] a_out
   );
 
-  reg  [15:0] reg_val[0:7];
+  reg  [15:0] reg_val[0:1];
 
-  reg  [15:0] reg_val_next[0:7];
+  reg  [15:0] reg_val_next[0:1];
 
-  reg  [7:0] reg_write_enab;
+  reg  [1:0] reg_write_enab;
 
   always @ (*)
-  begin : p_read_reg
+  begin : p_read_combin_reg_r
+  integer t;
 
-    a_out = reg_val[r_a_raddr_in];
+  integer i;
+    for ( i = 0; i <= 1; i = i + 1)
+    begin
+      t = 16 * ((2 -1) -i);
+      a_out[t + 16  -1 :t] = reg_val[i];
+    end
 
   end
 
@@ -31,13 +36,13 @@ module reg_file_v
     integer j;
 
     reg_write_enab = 8'h0;
-    for ( j = 0; j <= 7; j = j + 1)
+    for ( j = 0; j <= 1; j = j + 1)
       reg_val_next[j] = 16'h0;
 
     if (r_c_wen_in)
     begin
-      reg_write_enab[ r_c_waddr_in ] = 1'b1;
-      reg_val_next[   r_c_waddr_in ] = c_in;
+      reg_write_enab[ r_d_waddr_in ] = 1'b1;
+      reg_val_next[   r_d_waddr_in ] = d_in;
     end
 
   end
@@ -48,13 +53,13 @@ module reg_file_v
     integer j;
     if (reset)
     begin
-      for ( j = 0; j <= 7; j = j + 1)
+      for ( j = 0; j <= 1; j = j + 1)
         reg_val[j] <= 16'sh0;
 
     end
     else
     begin
-      for ( j = 0; j <= 7; j = j + 1)
+      for ( j = 0; j <= 1; j = j + 1)
       begin
         if (reg_write_enab[j])
         begin
