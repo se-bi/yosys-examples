@@ -1,6 +1,6 @@
 
 ghdl reg_file_vhd.vhd -e reg_file_vhd; hierarchy -auto-top; flatten; prep; proc; memory; async2sync; rename -top gold;  design -stash gold;
-read_verilog reg_file_v.v; hierarchy -top reg_file_v; flatten; prep; proc; memory; async2sync; rename -top gate; show gate; design -stash gate;
+read_verilog reg_file_v.v; hierarchy -top reg_file_v; flatten; prep; proc; memory; async2sync; rename -top gate; design -stash gate;
 design -copy-from gold -as gold gold; design -copy-from gate -as gate gate;
 equiv_make gold gate equiv; hierarchy -top equiv; flatten;
 equiv_simple; equiv_struct -icells; equiv_simple -seq 10; equiv_induct -seq 3; equiv_status;
