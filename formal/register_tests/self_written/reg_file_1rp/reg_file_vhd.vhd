@@ -7,7 +7,7 @@ entity reg_file_vhd is
     reset         : in  std_logic;
     clock         : in  std_logic;
     r_a_raddr_in  : in  std_logic_vector(       3  -1 downto 0);
-    r_in          : in  std_logic_vector( (8 * 16) -1 downto 0);
+    r_in          : in  std_logic_vector( (2 * 16) -1 downto 0);
     a_out         : out std_logic_vector(      16  -1 downto 0)
   );
 end reg_file_vhd;
@@ -16,7 +16,7 @@ end reg_file_vhd;
 architecture rtl of reg_file_vhd is
 
   constant WL : integer := 16;
-  constant L  : integer := 8;
+  constant L  : integer := 2;
 
   subtype data_word       is std_logic_vector(WL -1 downto 0);
   type    data_word_array is array (0 to L -1) of data_word;
@@ -49,8 +49,8 @@ begin
   begin
     r := (others => (others => '0'));
     --
-    for i in 0 to 8 -1 loop
-      t := 16 * ((8 -1) -i);
+    for i in 0 to 2 -1 loop
+      t := 16 * ((2 -1) -i);
       r(i) := r_in(t + 16  -1 downto t);
     end loop;  -- i
     --
