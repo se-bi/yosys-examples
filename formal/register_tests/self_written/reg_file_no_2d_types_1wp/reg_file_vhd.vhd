@@ -20,7 +20,7 @@ architecture rtl of reg_file_vhd is
 
   signal reg_val        : std_logic_vector((2*16)-1 downto 0);
   signal reg_val_next   : std_logic_vector((2*16)-1 downto 0);
-  signal reg_write_enab : std_logic_vector(0 to 1);
+  signal reg_write_enab : std_logic_vector(1 downto 0);
   function to_integer (constant arg : std_logic)
     return integer is
   begin
