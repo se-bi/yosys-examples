@@ -6,9 +6,9 @@ module reg_file_v
   ( input              reset,
     input              clock,
     input              r_d_wen_in,
-    input       [ 2:0] r_d_waddr_in,
+    input              r_d_waddr_in,
     input       [15:0] d_in,
-    output  reg [(16*2)-1:0] a_out
+    output  reg [31:0] a_out
   );
 
   reg  [15:0] reg_val[0:1];
@@ -24,7 +24,7 @@ module reg_file_v
   integer i;
     for ( i = 0; i <= 1; i = i + 1)
     begin
-      t = 16 * ((2 -1) -i);
+      t = 16 * i;
       a_out[t + 16  -1 :t] = reg_val[i];
     end
 
@@ -35,11 +35,11 @@ module reg_file_v
 
     integer j;
 
-    reg_write_enab = 8'h0;
+    reg_write_enab = 2'b0;
     for ( j = 0; j <= 1; j = j + 1)
-      reg_val_next[j] = 16'h0;
+      reg_val_next[j] = 16'b0;
 
-    if (r_c_wen_in)
+    if (r_d_wen_in)
     begin
       reg_write_enab[ r_d_waddr_in ] = 1'b1;
       reg_val_next[   r_d_waddr_in ] = d_in;
@@ -54,7 +54,7 @@ module reg_file_v
     if (reset)
     begin
       for ( j = 0; j <= 1; j = j + 1)
-        reg_val[j] <= 16'sh0;
+        reg_val[j] <= 16'b0;
 
     end
     else

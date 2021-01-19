@@ -6,7 +6,7 @@ entity reg_file_vhd is
   port (
     reset         : in  std_logic;
     clock         : in  std_logic;
-    r_a_raddr_in  : in  std_logic_vector(       3  -1 downto 0);
+    r_a_raddr_in  : in  std_logic;
     r_in          : in  std_logic_vector( (2 * 16) -1 downto 0);
     a_out         : out std_logic_vector(      16  -1 downto 0)
   );
@@ -23,6 +23,16 @@ architecture rtl of reg_file_vhd is
 
   signal reg_val        : data_word_array;
   signal reg_val_next   : data_word_array;
+  function to_integer (constant arg : std_logic)
+    return integer is
+  begin
+    if arg = '1' then
+      return 1;
+    else
+      return 0;
+    end if;
+  end to_integer;
+
 
 begin
 
@@ -30,7 +40,7 @@ begin
                          r_a_raddr_in)
   begin
 
-    a_out <= reg_val( to_integer( unsigned( r_a_raddr_in ) ) );
+    a_out <= reg_val( to_integer( r_a_raddr_in ) );
 
   end process p_read_reg;
 

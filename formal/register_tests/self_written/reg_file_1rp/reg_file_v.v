@@ -5,7 +5,7 @@ module reg_file_v
 
   ( input              reset,
     input               clock,
-    input       [ 2:0]        r_a_raddr_in,
+    input               r_a_raddr_in,
     input       [(2*16) -1:0] r_in,
     output  reg [15:0] a_out
   );

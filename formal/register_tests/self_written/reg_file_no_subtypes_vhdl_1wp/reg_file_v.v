@@ -35,9 +35,9 @@ module reg_file_v
 
     integer j;
 
-    reg_write_enab = 8'h0;
+    reg_write_enab = 2'h0;
     for ( j = 0; j <= 1; j = j + 1)
-      reg_val_next[j] = 16'h0;
+      reg_val_next[j] = 16'b0;
 
     if (r_d_wen_in)
     begin
@@ -54,7 +54,7 @@ module reg_file_v
     if (reset)
     begin
       for ( j = 0; j <= 1; j = j + 1)
-        reg_val[j] <= 16'sh0;
+        reg_val[j] <= 16'b0;
 
     end
     else
