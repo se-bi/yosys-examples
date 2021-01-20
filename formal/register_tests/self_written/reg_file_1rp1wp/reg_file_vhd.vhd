@@ -6,10 +6,10 @@ entity reg_file_vhd is
   port (
     reset         : in  std_logic;
     clock         : in  std_logic;
-    r_c_wen_in    : in  std_logic;
+    r_d_wen_in    : in  std_logic;
     r_a_raddr_in  : in  std_logic;
-    r_c_waddr_in  : in  std_logic;
-    c_in          : in  std_logic_vector(15 downto 0);
+    r_d_waddr_in  : in  std_logic;
+    d_in          : in  std_logic_vector(15 downto 0);
     a_out         : out std_logic_vector(15 downto 0)
   );
 end reg_file_vhd;
@@ -20,9 +20,9 @@ architecture rtl of reg_file_vhd is
   subtype data_word       is std_logic_vector(15 downto 0);
   type    data_word_array is array (natural range <>) of data_word;
 
-  signal reg_val        : data_word_array(0 to 1);
-  signal reg_val_next   : data_word_array(0 to 1);
-  signal reg_write_enab : std_logic_vector(0 to 1);
+  signal reg_val        : data_word_array(1 downto 0);
+  signal reg_val_next   : data_word_array(1 downto 0);
+  signal reg_write_enab : std_logic_vector(1 downto 0);
 
   function to_integer (constant arg : std_logic)
     return integer is
@@ -40,20 +40,20 @@ begin
                          r_a_raddr_in)
   begin
 
-    a_out <= reg_val( to_integer( r_a_raddr_in) );
+    a_out <= reg_val( to_integer(r_a_raddr_in) );
 
   end process p_read_reg;
 
-  p_write_combin_reg : process(r_c_wen_in,
-                                 r_c_waddr_in,
-                                 c_in)
+  p_write_combin_reg : process(r_d_wen_in,
+                                 r_d_waddr_in,
+                                 d_in)
   begin
     reg_write_enab <= (others => '0');
     reg_val_next   <= (others => (others => '0'));
 
-    if r_c_wen_in = '1' then
-      reg_write_enab( to_integer( r_c_waddr_in ) ) <= '1';
-      reg_val_next(   to_integer( r_c_waddr_in ) ) <= c_in;
+    if r_d_wen_in = '1' then
+      reg_write_enab( to_integer( r_d_waddr_in ) ) <= '1';
+      reg_val_next(   to_integer( r_d_waddr_in ) ) <= d_in;
     end if;
 
   end process p_write_combin_reg;

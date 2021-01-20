@@ -6,7 +6,7 @@ module reg_file_v
   ( input              reset,
     input               clock,
     input               r_a_raddr_in,
-    input       [(2*16) -1:0] r_in,
+    input       [31:0] r_in,
     output  reg [15:0] a_out
   );
 
@@ -19,23 +19,6 @@ module reg_file_v
 
     a_out = reg_val[r_a_raddr_in];
 
-  end
-
-  always @ (posedge clock or posedge reset)
-  begin : p_write_reg
-
-    integer j;
-    if (reset)
-    begin
-      for ( j = 0; j <= 1; j = j + 1)
-        reg_val[j] <= 16'sh0;
-
-    end
-    else
-    begin
-    for ( j = 0; j <= 1; j = j + 1)
-      reg_val[j] <= reg_val_next[j];
-    end
   end
 
   always @ (*)
@@ -54,6 +37,25 @@ module reg_file_v
     end
 
   end
+
+  always @ (posedge clock or posedge reset)
+  begin : p_write_reg
+
+    integer j;
+    if (reset)
+    begin
+      for ( j = 0; j <= 1; j = j + 1)
+        reg_val[j] <= 16'b0;
+
+    end
+    else
+    begin
+    for ( j = 0; j <= 1; j = j + 1)
+      reg_val[j] <= reg_val_next[j];
+    end
+  end
+
+  
 
 
 endmodule

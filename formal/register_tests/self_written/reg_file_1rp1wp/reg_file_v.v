@@ -5,10 +5,10 @@ module reg_file_v
 
   ( input              reset,
     input              clock,
-    input              r_c_wen_in,
+    input              r_d_wen_in,
     input              r_a_raddr_in,
-    input              r_c_waddr_in,
-    input       [15:0] c_in,
+    input              r_d_waddr_in,
+    input       [15:0] d_in,
     output  reg [15:0] a_out
   );
 
@@ -30,14 +30,14 @@ module reg_file_v
 
     integer j;
 
-    reg_write_enab = 2'h0;
+    reg_write_enab = 2'b0;
     for ( j = 0; j <= 1; j = j + 1)
       reg_val_next[j] = 16'b0;
 
-    if (r_c_wen_in)
+    if (r_d_wen_in)
     begin
-      reg_write_enab[ r_c_waddr_in ] = 1'b1;
-      reg_val_next[   r_c_waddr_in ] = c_in;
+      reg_write_enab[ r_d_waddr_in ] = 1'b1;
+      reg_val_next[   r_d_waddr_in ] = d_in;
     end
 
   end
