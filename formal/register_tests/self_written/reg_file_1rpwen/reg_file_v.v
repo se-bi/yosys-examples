@@ -1,0 +1,68 @@
+`timescale 1ns/1ps
+
+// module reg_file_v : reg_file_v
+module reg_file_v
+
+  ( input              reset,
+    input               clock,
+    input               r_a_raddr_in,
+    input               r_en_in,
+    input       [31:0] r_in,
+    output  reg [15:0] a_out
+  );
+
+  reg  [15:0] reg_val[0:1];
+
+  reg  [15:0] reg_val_next[0:1];
+  reg reg_write_enab;
+
+  always @ (*)
+  begin : p_read_reg
+
+    a_out = reg_val[r_a_raddr_in];
+
+  end
+
+  always @ (*)
+  begin : p_write_combin_reg_r
+  integer j;
+  integer t;
+    for ( j = 0; j <= 1; j = j + 1)
+      reg_val_next[j] = 16'sh0;
+
+
+  integer i;
+    if ( r_en_in )
+    begin
+        reg_write_enab = 1'b1;
+        for ( i = 0; i <= 1; i = i + 1)
+        begin
+        t = 16 * i;
+        reg_val_next[i] = r_in[t + 16  -1 :t];
+        end
+    end
+
+  end
+
+  always @ (posedge clock or posedge reset)
+  begin : p_write_reg
+
+    integer j;
+    if (reset)
+    begin
+      for ( j = 0; j <= 1; j = j + 1)
+        reg_val[j] <= 16'b0;
+
+    end
+    else
+    begin
+    if (reg_write_enab)
+    for ( j = 0; j <= 1; j = j + 1)
+            reg_val[j] <= reg_val_next[j];
+    end
+  end
+
+  
+
+
+endmodule
