@@ -21,10 +21,9 @@ issue_ys_639_tests:
     - yosys --version
   script:
     - cd formal
-    - pushd example-yosys-issue639/
+    - cd example-yosys-issue639/
     - ./run-all-yosys-equiv.sh >> yosys_equiv.log
     - ./check-results.sh | tee equiv_check.log
-    - popd
   artifacts:
     paths:
     - formal/example-yosys-issue639/*.log

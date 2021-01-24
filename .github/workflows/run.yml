@@ -30,10 +30,9 @@ jobs:
         run: |
           yosys --version
           cd formal
-          pushd example-yosys-issue639/
+          cd example-yosys-issue639/
           ./run-all-yosys-equiv.sh >> yosys_equiv.log
           ./check-results.sh | tee equiv_check.log
-          popd
       - name: Upload Artifacts / Logs
         uses: actions/upload-artifact@v2
         with:
