@@ -1,0 +1,42 @@
+name: Run Tests
+
+on:
+  push:
+
+jobs:
+  register_tests:
+    runs-on: ubuntu-latest
+    container: hdlc/ghdl:yosys
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run Register Tests
+        run: |
+          yosys --version
+          cd formal/register_tests
+          ./run_tests.sh | tee docker_register_tests.log
+      - name: Upload Artifacts / Logs
+        uses: actions/upload-artifact@v2
+        with:
+          name: logs_register_tests
+          path: "formal/register_tests/docker_register_tests.log"
+          retention-days: 42
+
+  issue_ys_639_tests:
+    runs-on: ubuntu-latest
+    container: hdlc/ghdl:yosys
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run Yosys' Issue 639 Tests
+        run: |
+          yosys --version
+          cd formal
+          pushd example-yosys-issue639/
+          ./run-all-yosys-equiv.sh >> yosys_equiv.log
+          ./check-results.sh | tee equiv_check.log
+          popd
+      - name: Upload Artifacts / Logs
+        uses: actions/upload-artifact@v2
+        with:
+          name: logs_issue_ys_639_tests
+          path:  "formal/example-yosys-issue639/*.log"
+          retention-days: 42
