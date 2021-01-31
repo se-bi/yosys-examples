@@ -28,3 +28,20 @@ issue_ys_639_tests:
     paths:
     - formal/example-yosys-issue639/*.log
     expire_in: 6 week
+
+ghdl_synth_libs:
+  stage: tests
+  image: hdlc/ghdl:yosys
+  before_script:
+    - yosys --version
+  script:
+    - cd synth/
+    - cd vhdl-pkgs-custom-lib/
+    - bash run-yosys.sh | tee ghdl_yosys_synth.log
+    - cd ../
+    - cd vhdl-pkgs-lib-work/
+    - bash run-yosys.sh | tee ghdl_yosys_synth.log
+  artifacts:
+    paths:
+    - synth/vhdl-pkgs-*/ghdl_yosys_synth.log
+    expire_in: 6 week

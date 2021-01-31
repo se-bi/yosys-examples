@@ -39,3 +39,24 @@ jobs:
           name: logs_issue_ys_639_tests
           path:  "formal/example-yosys-issue639/*.log"
           retention-days: 42
+
+  ghdl_synth_libs:
+    runs-on: ubuntu-latest
+    container: hdlc/ghdl:yosys
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run Synthesis with GHDL Yosys Plugin
+        run: |
+          yosys --version
+          cd synth/
+          cd vhdl-pkgs-custom-lib/
+          bash run-yosys.sh | tee ghdl_yosys_synth.log
+          cd ../
+          cd vhdl-pkgs-lib-work/
+          bash run-yosys.sh | tee ghdl_yosys_synth.log
+      - name: Upload Artifacts / Logs
+        uses: actions/upload-artifact@v2
+        with:
+          name: logs_issue_ys_639_tests
+          path:  "synth/vhdl-pkgs-*/ghdl_yosys_synth.log"
+          retention-days: 42
