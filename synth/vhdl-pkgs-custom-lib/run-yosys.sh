@@ -1,1 +1,3 @@
-yosys -m ghdl -p 'ghdl data_types.vhd reg.vhd -e reg'
+ghdl analyze --work=custom_lib  data_types.vhd
+ghdl analyze reg.vhd
+yosys -m ghdl -p 'ghdl reg'
