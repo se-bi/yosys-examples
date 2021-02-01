@@ -39,6 +39,9 @@ ghdl_synth_libs:
     - cd vhdl-pkgs-custom-lib/
     - bash run-yosys.sh | tee ghdl_yosys_synth.log
     - cd ../
+    - cd vhdl-pkgs-custom-lib2/
+    - bash run-yosys.sh | tee ghdl_yosys_synth.log
+    - cd ../
     - cd vhdl-pkgs-lib-work/
     - bash run-yosys.sh | tee ghdl_yosys_synth.log
   artifacts:
